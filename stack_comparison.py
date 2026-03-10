@@ -9,40 +9,17 @@ We measure the time for a large number of push() and pop() operations
 using Python's time module.
 
 Expected results:
-- The list-based Stack is faster because Python lists are optimized. 
-    Append() and pop() at the end are very fast.
+- The list-based Stack is faster because Python lists are optimized.
 - The UnorderedListStack is slower because each operation requires
-    creating Node objects and adjusting pointers.
+  creating Node objects and adjusting pointers.
 
 This shows that even if two implementations have the same conceptual
-efficiency (constant-time stack operations), practical performance can differ.
+efficiency, practical performance can differ.
 """
 
 import time
-from atds import Stack, UnorderedList, Node
+from atds import Stack, UnorderedListStack
 
-class UnorderedListStack:
-    def __init__(self):
-        self.items = UnorderedList()
-
-    def push(self, item):
-        self.items.add(item)
-
-    def pop(self):
-        if self.is_empty():
-            return None
-        return self.items.pop(0)
-
-    def peek(self):
-        if self.is_empty():
-            return None
-        return self.items.head.get_data()
-
-    def size(self):
-        return self.items.length()
-
-    def is_empty(self):
-        return self.items.is_empty()
 
 def test_push(stack_class, n):
     stack = stack_class()
@@ -57,11 +34,14 @@ def test_pop(stack_class, n):
     stack = stack_class()
     for i in range(n):
         stack.push(i)
+
     start = time.time()
     for i in range(n):
         stack.pop()
     end = time.time()
+
     return end - start
+
 
 def main():
     sizes = [1000, 10000, 50000, 100000]
@@ -85,6 +65,7 @@ def main():
         print("List-based Stack: " + str(round(list_pop, 6)) + " seconds")
         print("UnorderedListStack: " + str(round(linked_pop, 6)) + " seconds")
         print()
+
 
 if __name__ == "__main__":
     main()

@@ -189,6 +189,29 @@ class UnorderedList(object):
             next_node = next_node.get_next()
         result += "]"
         return result
+    
+class UnorderedListStack:
+    def __init__(self):
+        self.items = UnorderedList()
+
+    def push(self, item):
+        self.items.add(item)
+
+    def pop(self):
+        if self.is_empty():
+            return None
+        return self.items.pop(0)
+
+    def peek(self):
+        if self.is_empty():
+            return None
+        return self.items.head.get_data()
+
+    def size(self):
+        return self.items.length()
+
+    def is_empty(self):
+        return self.items.is_empty()
 
 if __name__ == "__main__":
     stack = Stack()
