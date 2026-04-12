@@ -213,6 +213,72 @@ class UnorderedListStack:
     def is_empty(self):
         return self.items.is_empty()
 
+class HashTable:
+    def __init__(self, size):
+        self.size = size
+        self.slots = [None] * size
+        self.data = [None] * size
+
+    def __repr__(self):
+        result = "Slots: " + str(self.slots) + "\n"
+        result = result + "Data:  " + str(self.data)
+        return result
+
+    def hash_function(self, key):
+        return key % self.size
+
+    def put(self, key, value):
+        hash_value = self.hash_function(key)
+
+        if self.slots[hash_value] is None:
+            self.slots[hash_value] = key
+            self.data[hash_value] = value
+        elif self.slots[hash_value] == key:
+            self.data[hash_value] = value
+        else:
+            next_slot = (hash_value + 1) % self.size
+
+            while self.slots[next_slot] is not None and self.slots[next_slot] != key:
+                next_slot = (next_slot + 1) % self.size
+
+                if next_slot == hash_value:
+                    print("Hash table is full.")
+                    return
+
+            if self.slots[next_slot] is None:
+                self.slots[next_slot] = key
+                self.data[next_slot] = value
+            else:
+                self.data[next_slot] = value
+
+    def get(self, key):
+        start_slot = self.hash_function(key)
+        position = start_slot
+
+        while self.slots[position] is not None:
+            if self.slots[position] == key:
+                return self.data[position]
+
+            position = (position + 1) % self.size
+
+            if position == start_slot:
+                return None
+
+        return None
+    
+class BinaryTree:
+    def binary_tree(val):
+        return [val, [], []]
+
+    def get_root_val(root):
+        return root[0]
+
+    def set_root_val(root, new_val):
+        root[0] = new_val
+
+    def get_left_child(root):
+        return root[1]
+
 if __name__ == "__main__":
     stack = Stack()
     print("Popping from empty stack:", stack.pop())
