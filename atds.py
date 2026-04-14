@@ -278,6 +278,69 @@ class BinaryTree:
 
     def get_left_child(root):
         return root[1]
+    
+class HashTable:
+    def __init__(self, m):
+        self.size = m
+        self.slots = [None] * m
+        self.data = [None] * m
+
+    def __repr__(self):
+        result = []
+        for i in range(self.size):
+            result.append(f"{i}: {self.slots[i]} -> {self.data[i]}")
+        return "\n".join(result)
+
+    def hash_function(self, key):
+        return key % self.size
+
+    def put(self, key, value):
+        index = self.hash_function(key)
+
+        if self.slots[index] is None:
+            self.slots[index] = key
+            self.data[index] = value
+            return
+
+        if self.slots[index] == key:
+            self.data[index] = value
+            return
+
+        next_index = (index + 1) % self.size
+
+        while next_index != index:
+            if self.slots[next_index] is None:
+                self.slots[next_index] = key
+                self.data[next_index] = value
+                return
+
+            if self.slots[next_index] == key:
+                self.data[next_index] = value
+                return
+
+            next_index = (next_index + 1) % self.size
+
+    def get(self, key):
+        index = self.hash_function(key)
+
+        if self.slots[index] is None:
+            return None
+
+        if self.slots[index] == key:
+            return self.data[index]
+
+        next_index = (index + 1) % self.size
+
+        while next_index != index:
+            if self.slots[next_index] is None:
+                return None
+
+            if self.slots[next_index] == key:
+                return self.data[next_index]
+
+            next_index = (next_index + 1) % self.size
+
+        return None
 
 if __name__ == "__main__":
     stack = Stack()
@@ -326,3 +389,13 @@ if __name__ == "__main__":
     print("Pop position 1: " + str(ul.pop(1)))
     print("After popping position 1: " + str(ul))
     print("Final length: " + str(ul.length()))
+    h = HashTable(11)
+    h.put(10, "A")
+    h.put(21, "B")
+    h.put(32, "C")
+    print(h)
+    print("Get 10:", h.get(10))
+    print("Get 21:", h.get(21))
+    print("Get 99:", h.get(99))
+    h.put(10, "Z")
+    print("Updated 10:", h.get(10))
