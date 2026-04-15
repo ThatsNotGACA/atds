@@ -341,6 +341,27 @@ class HashTable:
             next_index = (next_index + 1) % self.size
 
         return None
+    
+class LinearSearcher:
+    def search(self, arr, target):
+        for i in range(len(arr)):
+            if arr[i] == target:
+                return i
+        return None
+    
+class BinarySearcher:
+    def search(self, arr, target):
+        left = 0
+        right = len(arr) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if arr[mid] == target:
+                return mid
+            elif arr[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return None
 
 if __name__ == "__main__":
     stack = Stack()
@@ -398,4 +419,27 @@ if __name__ == "__main__":
     print("Get 21:", h.get(21))
     print("Get 99:", h.get(99))
     h.put(10, "Z")
-    print("Updated 10:", h.get(10))
+    print("Updated 10:", h.get(10))    
+    lin = LinearSearcher()
+    arr1 = [5, 3, 8, 1, 9]
+    print("List:", arr1)
+    print("Search 8:", lin.search(arr1, 8))
+    print("Search 2:", lin.search(arr1, 2))
+    bin_search = BinarySearcher()
+    test_cases = [
+        ([1, 2, 3, 4, 7, 9, 13, 14, 20], 7),
+        ([1, 2, 3, 4, 7, 9, 13, 14, 20], 1),
+        ([1, 2, 3, 4, 7, 9, 13, 14, 20], 20),
+        ([1, 2, 3, 4, 7, 9, 13, 14, 20], -2),
+        ([1, 2, 3, 4, 7, 9, 13, 14, 20], 23),
+        ([1, 2, 3, 4, 7, 9, 13, 14, 20], 10),
+        ([4, 7, 9, 13, 14, 20], 9),
+        ([4, 7, 9, 13, 14, 20], 13),
+        ([4, 7, 9, 13, 14, 20], 20),
+        ([4, 7, 9, 13, 14, 20], 2),
+        ([4, 7, 9, 13, 14, 20], 10),
+        ([4, 7, 9, 13, 14, 20], 22),
+    ]
+    for arr, target in test_cases:
+        result = bin_search.search(arr, target)
+        print("search(" + str(target) + ") in " + str(arr) + " -> " + str(result))
